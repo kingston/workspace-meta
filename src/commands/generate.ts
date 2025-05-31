@@ -47,30 +47,17 @@ export async function generateCommand(
   if (options.path) {
     packagePath = path.resolve(workspacePath, options.path);
   } else {
-    // Default to packages/<package-name> or apps/<package-name>
-    const defaultType = await prompts.select({
-      message: 'Package type:',
-      choices: [
-        { name: 'Package (packages/)', value: 'packages' },
-        { name: 'Application (apps/)', value: 'apps' },
-        { name: 'Custom location', value: 'custom' },
-      ],
+    const customPath = await prompts.input({
+      message: 'Enter package path (relative to workspace root):',
+      default: `packages/${packageName}`,
+      validate: (input: string) => {
+        if (!input.trim()) {
+          return 'Path cannot be empty';
+        }
+        return true;
+      },
     });
-
-    if (defaultType === 'custom') {
-      const customPath = await prompts.input({
-        message: 'Enter custom path (relative to workspace root):',
-        validate: (input: string) => {
-          if (!input.trim()) {
-            return 'Path cannot be empty';
-          }
-          return true;
-        },
-      });
-      packagePath = path.resolve(workspacePath, customPath);
-    } else {
-      packagePath = path.resolve(workspacePath, defaultType, packageName);
-    }
+    packagePath = path.resolve(workspacePath, customPath);
   }
 
   Logger.info(`Creating package at: ${packagePath}`);
