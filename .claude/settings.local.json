@@ -7,7 +7,8 @@
       "Bash(pnpm typecheck:*)",
       "Bash(cat:*)",
       "Bash(grep:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(mkdir:*)"
     ]
   },
   "enableAllProjectMcpServers": false

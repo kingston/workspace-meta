@@ -34,17 +34,13 @@ program
   .description(
     'Synchronize and manage metadata files across packages within a monorepo',
   )
-  .version(packageJson.version)
-  .option(
-    '--cwd <dir>',
-    'Specify the working directory (can also be set per command)',
-  );
+  .version(packageJson.version);
 
 program
   .command('sync')
   .description('Synchronize metadata files across packages')
   .argument('[package-glob]', 'Optional glob pattern to filter packages')
-  .option('--cwd <dir>', 'Specify the working directory')
+  .option('-c,--cwd <dir>', 'Specify the working directory')
   .action(
     async (packageGlob: string | undefined, options: { cwd?: string }) => {
       const workspaceRoot = resolveWorkspaceRoot(options.cwd);
@@ -61,7 +57,7 @@ program
     'Check if metadata files are synchronized without making changes',
   )
   .argument('[package-glob]', 'Optional glob pattern to filter packages')
-  .option('--cwd <dir>', 'Specify the working directory')
+  .option('-c,--cwd <dir>', 'Specify the working directory')
   .action(
     async (packageGlob: string | undefined, options: { cwd?: string }) => {
       const workspaceRoot = resolveWorkspaceRoot(options.cwd);
@@ -80,7 +76,7 @@ program
     '--path <path>',
     'Custom path for the new package (relative to workspace root)',
   )
-  .option('--cwd <dir>', 'Specify the working directory')
+  .option('-c,--cwd <dir>', 'Specify the working directory')
   .action(
     async (packageName: string, options: { path?: string; cwd?: string }) => {
       const workspaceRoot = resolveWorkspaceRoot(options.cwd);

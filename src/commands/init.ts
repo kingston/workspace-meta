@@ -3,6 +3,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { hasConfig } from '#src/services/config-loader.js';
+import { ensureDir } from '#src/utils/fs.js';
 import { Logger } from '#src/utils/logger.js';
 
 const CONFIG_TEMPLATE = `import { defineWorkspaceMetaConfig, ensurePackageJson } from 'workspace-meta';
@@ -63,10 +64,11 @@ export async function initCommand(workspaceRoot: string): Promise<void> {
     default: 'js',
   });
 
-  const filename = `workspace-meta.config.${format}`;
+  const filename = `.workspace-meta/config.${format}`;
   const configPath = path.join(workspaceRoot, filename);
 
   try {
+    await ensureDir(path.join(workspaceRoot, '.workspace-meta'));
     await writeFile(configPath, CONFIG_TEMPLATE, 'utf8');
     Logger.success(`Created configuration file: ${filename}`);
 
