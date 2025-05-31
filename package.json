@@ -42,7 +42,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsx -C development src/cli.ts",
-    "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier -w .",
