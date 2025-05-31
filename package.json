@@ -1,11 +1,17 @@
 {
-  "name": "tool-template",
+  "name": "workspace-meta",
   "version": "0.1.0",
-  "description": "Tool template",
-  "keywords": [],
+  "description": "A CLI tool to synchronize and manage metadata files across packages within a monorepo",
+  "keywords": [
+    "monorepo",
+    "workspace",
+    "metadata",
+    "sync",
+    "cli"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kingston/tool-template"
+    "url": "git+https://github.com/kingston/workspace-meta"
   },
   "license": "MIT",
   "author": "Kingston Tam",
@@ -18,12 +24,18 @@
     }
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "main": "dist/index.js",
-  "bin": "dist/cli.js",
+  "bin": {
+    "workspace-meta": "./bin/workspace-meta.js"
+  },
   "files": [
     "dist/**/*",
+    "bin/**/*",
     "README.md",
     "LICENSE"
   ],
@@ -35,23 +47,32 @@
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier -w .",
     "release": "pnpm build && pnpm changeset publish",
-    "start": "node dist/cli.js",
+    "start": "node bin/workspace-meta.js",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "commander": "^14.0.0"
+    "@inquirer/prompts": "^7.5.3",
+    "chalk": "^5.4.1",
+    "commander": "^14.0.0",
+    "fast-glob": "^3.3.3",
+    "find-workspaces": "^0.3.1",
+    "jiti": "^2.4.2",
+    "micromatch": "^4.0.8",
+    "pkg-types": "^2.1.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
-    "@ktam/lint-node": "0.4.0",
+    "@ktam/lint-node": "0.4.2",
     "@tsconfig/node20": "^20.1.5",
+    "@types/micromatch": "^4.0.9",
     "@types/node": "~20.17.57",
     "eslint": "^9.28.0",
+    "memfs": "^4.17.2",
     "prettier": "^3.5.3",
     "tsx": "^4.19.4",
     "typescript": "~5.7.3",
-    "vitest": "3.1.2"
+    "vitest": "3.1.4"
   },
   "packageManager": "pnpm@10.11.0",
   "engines": {
