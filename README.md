@@ -17,21 +17,27 @@ yarn add -D workspace-meta
 ## Quick Start
 
 1. **Initialize** workspace-meta in your monorepo:
+
    ```bash
    pnpm workspace-meta init
    ```
+
    Creates the `.workspace-meta/` directory and initial configuration file.
 
 2. **Check** your workspace configuration:
+
    ```bash
    pnpm workspace-meta check
    ```
+
    Analyzes your workspace and shows what changes would be made without actually modifying files.
 
 3. **Sync** configuration across all packages:
+
    ```bash
    pnpm workspace-meta sync
    ```
+
    Applies all configured plugins to synchronize configuration across your workspace packages.
 
 4. **Generate** new packages with consistent setup:
