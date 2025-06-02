@@ -9,10 +9,13 @@ import type { Plugin, PluginContext } from '#src/types/config.js';
  * @returns A plugin that ensures a package.json file exists and updates it with the provided updater
  */
 export function ensurePackageJson(
-  updater: (packageJson: PackageJson) => PackageJson | undefined,
+  updater: (
+    packageJson: PackageJson,
+    ctx: PluginContext,
+  ) => Promise<PackageJson | undefined> | PackageJson | undefined,
 ): Plugin {
   return async (ctx: PluginContext): Promise<void> => {
-    const result = updater(ctx.packageJson);
+    const result = await updater(ctx.packageJson, ctx);
     const finalPackageJson = result ?? ctx.packageJson;
 
     const content = `${JSON.stringify(finalPackageJson, null, 2)}\n`;

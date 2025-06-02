@@ -73,6 +73,7 @@ export class PluginRunner {
       packagePath: pkg.path,
       packageName: pkg.name,
       packageJson: pkg.packageJson,
+      configDirectory: path.join(this.workspacePath, '.workspace-meta'),
       isCheckMode: options.isCheckMode,
       readFile: this.createReadFile(pkg.path),
       writeFile: this.createWriteFile(

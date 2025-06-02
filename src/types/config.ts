@@ -22,6 +22,10 @@ export interface PluginContext {
    */
   packageJson: PackageJson;
   /**
+   * The absolute path to the config directory (where workspace-meta.config.js is located)
+   */
+  configDirectory: string;
+  /**
    * Reads a file from the package
    */
   isCheckMode: boolean;
