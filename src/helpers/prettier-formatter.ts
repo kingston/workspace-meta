@@ -26,6 +26,13 @@ export async function prettierFormatter(
       throw new Error('Prettier is not available');
     }
 
+    // Check if Prettier can parse this file
+    const fileInfo = await prettier.getFileInfo(filename);
+    if (!fileInfo.inferredParser) {
+      // Prettier doesn't know how to format this file type
+      return content;
+    }
+
     // Resolve prettier config for the file
     const options = await prettier.resolveConfig(filename);
 
