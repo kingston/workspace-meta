@@ -1,5 +1,11 @@
 # workspace-meta
 
+## 0.1.4
+
+### Patch Changes
+
+- d8c6d49: Add includeRootPackage option to configuration. When set to true, the root package will be included in workspace discovery and plugins will run on it alongside workspace packages.
+
 ## 0.1.3
 
 ### Patch Changes
