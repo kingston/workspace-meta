@@ -27,6 +27,7 @@ describe('ensurePackageJson', () => {
         name: 'test-package',
         version: '1.0.0',
       }),
+      result.context,
     );
 
     const packageJsonContents = result.files['package.json'] ?? '';

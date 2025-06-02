@@ -45,6 +45,7 @@ describe('PluginRunner', () => {
           packagePath: mockPackage.path,
           packageName: mockPackage.name,
           packageJson: mockPackage.packageJson,
+          configDirectory: '/workspace/.workspace-meta',
           isCheckMode: false,
         }),
       );

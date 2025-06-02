@@ -57,4 +57,12 @@ describe('ensureFile', () => {
       'output.txt': 'Config: {"theme": "dark"}',
     });
   });
+
+  it('should not write file when content function returns undefined', async () => {
+    const content = vi.fn(() => undefined);
+    const result = await runPluginTestWrapper(ensureFile('test.txt', content));
+
+    expect(content).toHaveBeenCalledWith(result.context);
+    expect(result.files).toEqual({});
+  });
 });
