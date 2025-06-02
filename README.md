@@ -374,10 +374,10 @@ export default defineWorkspaceMetaConfig({
 ### Using Templates for Configuration
 
 ```javascript
-import { 
-  defineWorkspaceMetaConfig, 
+import {
+  defineWorkspaceMetaConfig,
   ensureFileFromTemplate,
-  prettierFormatter 
+  prettierFormatter,
 } from 'workspace-meta';
 
 export default defineWorkspaceMetaConfig({
@@ -387,7 +387,7 @@ export default defineWorkspaceMetaConfig({
     ensureFileFromTemplate('.eslintrc.json', 'templates/eslintrc.json'),
     ensureFileFromTemplate('tsconfig.json', 'templates/tsconfig.json'),
     ensureFileFromTemplate('.prettierrc', 'templates/prettierrc.json'),
-    
+
     // Ensure all packages have consistent scripts
     ensurePackageJson((pkg) => ({
       ...pkg,

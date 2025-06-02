@@ -89,7 +89,7 @@ export async function generateCommand(
 
   // Discover existing packages to provide context
   const existingPackages = discoverPackages(workspacePath);
-  
+
   // Run plugins on the new package
   const runner = new PluginRunner(workspacePath, config);
   const result = await runner.runPluginsForPackage(

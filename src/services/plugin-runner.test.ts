@@ -506,12 +506,12 @@ describe('PluginRunner', () => {
 
       // Check that each plugin invocation received all packages
       expect(plugin).toHaveBeenCalledTimes(2);
-      
+
       const firstCall = plugin.mock.calls[0][0];
       expect(firstCall.workspacePackages).toHaveLength(2);
       expect(firstCall.workspacePackages).toEqual(packages);
       expect(firstCall.packageName).toBe('package-a');
-      
+
       const secondCall = plugin.mock.calls[1][0];
       expect(secondCall.workspacePackages).toHaveLength(2);
       expect(secondCall.workspacePackages).toEqual(packages);
