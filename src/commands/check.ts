@@ -19,7 +19,9 @@ export async function checkCommand(
   }
 
   // Discover packages
-  const packages = discoverPackages(workspacePath, packageGlob);
+  const packages = discoverPackages(workspacePath, packageGlob, {
+    includeRootPackage: config.includeRootPackage,
+  });
 
   if (packages.length === 0) {
     Logger.warn('No packages found in workspace');
