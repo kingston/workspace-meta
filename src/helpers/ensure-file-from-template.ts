@@ -10,7 +10,10 @@ import type { Plugin, PluginContext } from '#src/types/config.js';
  * @param templatePath - The path to the template file relative to the config directory.
  * @returns A plugin that ensures the file exists with the content from the template.
  */
-export function ensureFileFrom(filePath: string, templatePath: string): Plugin {
+export function ensureFileFromTemplate(
+  filePath: string,
+  templatePath: string,
+): Plugin {
   return async (ctx: PluginContext): Promise<void> => {
     const absoluteTemplatePath = path.resolve(
       ctx.configDirectory,
