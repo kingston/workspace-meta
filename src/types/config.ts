@@ -90,6 +90,11 @@ export interface WorkspaceMetaConfig {
    */
   plugins: Plugin[];
   /**
+   * Whether to include the root package in workspace discovery
+   * @default false
+   */
+  includeRootPackage?: boolean;
+  /**
    * The function to generate a new package
    */
   generateNewPackage?: (

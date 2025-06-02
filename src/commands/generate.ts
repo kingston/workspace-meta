@@ -88,7 +88,9 @@ export async function generateCommand(
   };
 
   // Discover existing packages to provide context
-  const existingPackages = discoverPackages(workspacePath);
+  const existingPackages = discoverPackages(workspacePath, undefined, {
+    includeRootPackage: config.includeRootPackage,
+  });
 
   // Run plugins on the new package
   const runner = new PluginRunner(workspacePath, config);

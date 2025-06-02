@@ -71,6 +71,13 @@ export default defineWorkspaceMetaConfig({
 });
 ```
 
+### Configuration Options
+
+- **`plugins`** (required): Array of plugin functions to run on each package
+- **`includeRootPackage`** (optional, default: `false`): Whether to include the root package in workspace discovery
+- **`formatter`** (optional): Function to format generated files
+- **`generateNewPackage`** (optional): Function to generate new packages
+
 ### TypeScript Configuration
 
 ```typescript
@@ -396,6 +403,26 @@ export default defineWorkspaceMetaConfig({
         lint: 'eslint .',
         format: 'prettier --write .',
         typecheck: 'tsc --noEmit',
+      },
+    })),
+  ],
+});
+```
+
+### Including Root Package
+
+To run plugins on the root package as well as workspace packages:
+
+```javascript
+export default defineWorkspaceMetaConfig({
+  includeRootPackage: true,
+  plugins: [
+    // This will run on both the root package and all workspace packages
+    ensurePackageJson((pkg) => ({
+      ...pkg,
+      engines: {
+        node: '>=18',
+        pnpm: '>=8',
       },
     })),
   ],
