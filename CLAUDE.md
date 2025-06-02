@@ -130,3 +130,15 @@ pnpm prettier:write
 # Build package
 pnpm build
 ```
+
+## Changesets
+
+If you are adding a new feature or changing an existing feature, please also add a new Changeset for it in the `.changeset/` directory of the form (keeping things to patch changes for now):
+
+```markdown
+---
+'package-name': patch
+---
+
+Description of the feature or change
+```
