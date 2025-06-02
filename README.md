@@ -219,14 +219,6 @@ conditionalFile(
 );
 ```
 
-### `copyFile(source, destination)`
-
-Copies a file from source to destination.
-
-```javascript
-copyFile('templates/tsconfig.json', 'tsconfig.json');
-```
-
 ### `updateJsonFile(path, updater)`
 
 Updates a JSON file with the provided updater function.
@@ -238,12 +230,32 @@ updateJsonFile('package.json', (pkg) => ({
 }));
 ```
 
-### `ensureFileFromTemplate(templatePath, destination)`
+### `ensureFileFromTemplate(filePath, templatePath)`
 
-Creates a file from a template with variable substitution.
+Copies a template file from the config directory to packages.
 
 ```javascript
-ensureFileFromTemplate('templates/package.json.template', 'package.json');
+// Copy from .workspace-meta/templates/
+ensureFileFromTemplate('.eslintrc.json', 'templates/.eslintrc.json');
+ensureFileFromTemplate('tsconfig.json', 'templates/tsconfig.json');
+
+// Copy from relative paths
+ensureFileFromTemplate('.prettierrc', '../shared/prettier-config.json');
+```
+
+### `prettierFormatter`
+
+A pre-configured formatter that uses Prettier to format files.
+
+```javascript
+import { defineWorkspaceMetaConfig, prettierFormatter } from 'workspace-meta';
+
+export default defineWorkspaceMetaConfig({
+  formatter: prettierFormatter,
+  plugins: [
+    /* ... */
+  ],
+});
 ```
 
 ## Custom Formatters
@@ -303,11 +315,13 @@ Plugins receive a context object with useful information and utilities:
 interface PluginContext {
   packageName: string; // Current package name
   packagePath: string; // Absolute path to package
-  workspaceRoot: string; // Absolute path to workspace root
   packageJson: PackageJson; // Current package.json content
-  readFile(path: string): Promise<string>;
+  workspacePath: string; // Absolute path to workspace root
+  configDirectory: string; // Path to .workspace-meta directory
+  workspacePackages: PackageInfo[]; // All packages in the workspace
+  isCheckMode: boolean; // Whether running in check mode
+  readFile(path: string): Promise<string | undefined>;
   writeFile(path: string, content: string): Promise<void>;
-  fileExists(path: string): Promise<boolean>;
 }
 ```
 
@@ -344,7 +358,7 @@ export default defineWorkspaceMetaConfig({
 ```javascript
 export default defineWorkspaceMetaConfig({
   plugins: [
-    copyFile('../../.eslintrc.json', '.eslintrc.json'),
+    ensureFileFromTemplate('.eslintrc.json', 'templates/eslintrc.json'),
     ensurePackageJson((pkg) => ({
       ...pkg,
       scripts: {
@@ -355,6 +369,48 @@ export default defineWorkspaceMetaConfig({
     })),
   ],
 });
+```
+
+### Using Templates for Configuration
+
+```javascript
+import { 
+  defineWorkspaceMetaConfig, 
+  ensureFileFromTemplate,
+  prettierFormatter 
+} from 'workspace-meta';
+
+export default defineWorkspaceMetaConfig({
+  formatter: prettierFormatter,
+  plugins: [
+    // Copy configuration templates from .workspace-meta/templates/
+    ensureFileFromTemplate('.eslintrc.json', 'templates/eslintrc.json'),
+    ensureFileFromTemplate('tsconfig.json', 'templates/tsconfig.json'),
+    ensureFileFromTemplate('.prettierrc', 'templates/prettierrc.json'),
+    
+    // Ensure all packages have consistent scripts
+    ensurePackageJson((pkg) => ({
+      ...pkg,
+      scripts: {
+        ...pkg.scripts,
+        lint: 'eslint .',
+        format: 'prettier --write .',
+        typecheck: 'tsc --noEmit',
+      },
+    })),
+  ],
+});
+```
+
+With this setup, create your templates in `.workspace-meta/templates/`:
+
+```
+.workspace-meta/
+├── config.js
+└── templates/
+    ├── eslintrc.json
+    ├── tsconfig.json
+    └── prettierrc.json
 ```
 
 ## License

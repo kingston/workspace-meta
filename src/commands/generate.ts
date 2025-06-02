@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { loadConfig } from '#src/services/config-loader.js';
 import { PluginRunner } from '#src/services/plugin-runner.js';
+import { discoverPackages } from '#src/services/workspace-discovery.js';
 import { ErrorWithHelpMessage } from '#src/utils/error.js';
 import { ensureDir, writeJson } from '#src/utils/fs.js';
 import { Logger } from '#src/utils/logger.js';
@@ -86,11 +87,18 @@ export async function generateCommand(
     packageJson: initialPackageJson,
   };
 
+  // Discover existing packages to provide context
+  const existingPackages = discoverPackages(workspacePath);
+  
   // Run plugins on the new package
   const runner = new PluginRunner(workspacePath, config);
-  const result = await runner.runPluginsForPackage(fakePackage, {
-    isCheckMode: false,
-  });
+  const result = await runner.runPluginsForPackage(
+    fakePackage,
+    {
+      isCheckMode: false,
+    },
+    [...existingPackages, fakePackage],
+  );
 
   // Report results
   if (result.errors.length > 0) {

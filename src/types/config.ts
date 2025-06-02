@@ -2,6 +2,24 @@ import type * as prompts from '@inquirer/prompts';
 import type { PackageJson } from 'pkg-types';
 
 /**
+ * Information about a package in the workspace
+ */
+export interface PackageInfo {
+  /**
+   * The name of the package
+   */
+  name: string;
+  /**
+   * The absolute path to the package
+   */
+  path: string;
+  /**
+   * The package.json object for the package
+   */
+  packageJson: PackageJson;
+}
+
+/**
  * Context object passed to plugins
  */
 export interface PluginContext {
@@ -25,6 +43,10 @@ export interface PluginContext {
    * The absolute path to the config directory (where workspace-meta.config.js is located)
    */
   configDirectory: string;
+  /**
+   * Information about all packages in the workspace
+   */
+  workspacePackages: PackageInfo[];
   /**
    * Reads a file from the package
    */

@@ -46,6 +46,7 @@ describe('PluginRunner', () => {
           packageName: mockPackage.name,
           packageJson: mockPackage.packageJson,
           configDirectory: '/workspace/.workspace-meta',
+          workspacePackages: [mockPackage],
           isCheckMode: false,
         }),
       );
@@ -477,6 +478,60 @@ describe('PluginRunner', () => {
       expect(results[0].packageName).toBe('package-a');
       expect(results[1].packageName).toBe('package-b');
       expect(plugin).toHaveBeenCalledTimes(2);
+    });
+
+    it('should provide all workspace packages to each plugin', async () => {
+      const packages: Package[] = [
+        {
+          name: 'package-a',
+          path: '/workspace/packages/package-a',
+          packageJson: { name: 'package-a', version: '1.0.0' },
+        },
+        {
+          name: 'package-b',
+          path: '/workspace/packages/package-b',
+          packageJson: { name: 'package-b', version: '1.0.0' },
+        },
+      ];
+
+      const plugin = vi.fn<Plugin>();
+      const config: WorkspaceMetaConfig = {
+        plugins: [plugin],
+      };
+
+      const runner = new PluginRunner(workspacePath, config);
+      await runner.runPluginsForPackages(packages, {
+        isCheckMode: false,
+      });
+
+      // Check that each plugin invocation received all packages
+      expect(plugin).toHaveBeenCalledTimes(2);
+      
+      const firstCall = plugin.mock.calls[0][0];
+      expect(firstCall.workspacePackages).toHaveLength(2);
+      expect(firstCall.workspacePackages).toEqual(packages);
+      expect(firstCall.packageName).toBe('package-a');
+      
+      const secondCall = plugin.mock.calls[1][0];
+      expect(secondCall.workspacePackages).toHaveLength(2);
+      expect(secondCall.workspacePackages).toEqual(packages);
+      expect(secondCall.packageName).toBe('package-b');
+    });
+
+    it('should provide single package when running for individual package', async () => {
+      const plugin = vi.fn<Plugin>();
+      const config: WorkspaceMetaConfig = {
+        plugins: [plugin],
+      };
+
+      const runner = new PluginRunner(workspacePath, config);
+      await runner.runPluginsForPackage(mockPackage, {
+        isCheckMode: false,
+      });
+
+      const context = plugin.mock.calls[0][0];
+      expect(context.workspacePackages).toHaveLength(1);
+      expect(context.workspacePackages[0]).toEqual(mockPackage);
     });
   });
 });

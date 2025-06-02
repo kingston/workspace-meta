@@ -14,6 +14,11 @@ export interface MockPluginContextOptions {
   packageName?: string;
   packageJson?: PackageJson;
   configDirectory?: string;
+  workspacePackages?: {
+    name: string;
+    path: string;
+    packageJson: PackageJson;
+  }[];
   isCheckMode?: boolean;
   files?: Record<string, string>;
 }
@@ -28,6 +33,7 @@ export interface MockPluginContextOptions {
  * - packageName: 'test-package'
  * - packageJson: { name: 'test-package', version: '1.0.0' }
  * - configDirectory: '/workspace/.workspace-meta'
+ * - workspacePackages: [current package]
  * - isCheckMode: false
  * - files: {}
  */
@@ -40,6 +46,7 @@ export function createMockPluginContext(
     packageName = 'test-package',
     packageJson = { name: packageName, version: '1.0.0' },
     configDirectory = '/workspace/.workspace-meta',
+    workspacePackages,
     isCheckMode = false,
     files = {},
   } = options;
@@ -54,12 +61,17 @@ export function createMockPluginContext(
     packagePath,
   );
 
+  const defaultWorkspacePackages = workspacePackages ?? [
+    { name: packageName, path: packagePath, packageJson },
+  ];
+
   const context: PluginContext = {
     workspacePath,
     packagePath,
     packageName,
     packageJson,
     configDirectory,
+    workspacePackages: defaultWorkspacePackages,
     isCheckMode,
     readFile: vi.fn((relativePath: string) => {
       const fullPath = path.join(packagePath, relativePath);

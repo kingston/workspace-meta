@@ -48,7 +48,7 @@ export class PluginRunner {
     const results: PluginResult[] = [];
 
     for (const pkg of packages) {
-      const result = await this.runPluginsForPackage(pkg, options);
+      const result = await this.runPluginsForPackage(pkg, options, packages);
       results.push(result);
     }
 
@@ -58,6 +58,7 @@ export class PluginRunner {
   async runPluginsForPackage(
     pkg: Package,
     options: PluginRunnerOptions,
+    allPackages?: Package[],
   ): Promise<PluginResult> {
     const result: PluginResult = {
       packageName: pkg.name,
@@ -74,6 +75,7 @@ export class PluginRunner {
       packageName: pkg.name,
       packageJson: pkg.packageJson,
       configDirectory: path.join(this.workspacePath, '.workspace-meta'),
+      workspacePackages: allPackages ?? [pkg],
       isCheckMode: options.isCheckMode,
       readFile: this.createReadFile(pkg.path),
       writeFile: this.createWriteFile(
