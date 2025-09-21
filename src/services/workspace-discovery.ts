@@ -71,7 +71,7 @@ export function discoverPackages(
     }
   }
 
-  return packages.sort((a, b) => a.path.localeCompare(b.path));
+  return packages.toSorted((a, b) => a.path.localeCompare(b.path));
 }
 
 function matchesGlob(
