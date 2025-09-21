@@ -1,5 +1,11 @@
 # workspace-meta
 
+## 0.1.5
+
+### Patch Changes
+
+- c15e229: Upgrade dependencies and use trusted publishing
+
 ## 0.1.4
 
 ### Patch Changes
