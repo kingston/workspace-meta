@@ -1,5 +1,12 @@
 # workspace-meta
 
+## 0.1.6
+
+### Patch Changes
+
+- 152fe0a: Use Node.js 22.23.4 for development and update `@types/node` to 22.x.
+- b5031ba: Update `@inquirer/prompts` to v8 and refresh dependencies to resolve known vulnerabilities.
+
 ## 0.1.5
 
 ### Patch Changes
