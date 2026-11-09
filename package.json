@@ -65,7 +65,7 @@
     "@ktam/lint-node": "0.5.1",
     "@tsconfig/node20": "^20.1.6",
     "@types/micromatch": "^4.0.9",
-    "@types/node": "^20.19.17",
+    "@types/node": "^24.19.2",
     "eslint": "9.36.0",
     "memfs": "4.43.0",
     "prettier": "3.6.2",
@@ -75,7 +75,7 @@
   },
   "packageManager": "pnpm@10.17.0",
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "pnpm": ">=9"
   },
   "publishConfig": {
