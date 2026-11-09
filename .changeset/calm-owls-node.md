@@ -2,4 +2,4 @@
 'workspace-meta': patch
 ---
 
-Require Node.js 24 or newer and use Node.js 24.22.2 for development.
+Use Node.js 22.23.4 for development and update `@types/node` to 22.x.
